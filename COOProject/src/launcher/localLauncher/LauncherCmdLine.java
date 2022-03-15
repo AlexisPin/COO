@@ -2,6 +2,8 @@ package launcher.localLauncher;
 
 import java.util.Observer;
 
+import model.Cavalier;
+import model.Couleur;
 import model.observable.ChessGame;
 import vue.ChessGameCmdLine;
 import controler.controlerLocal.ChessGameControler;
@@ -27,6 +29,7 @@ public class LauncherCmdLine {
 		vue = new ChessGameCmdLine(controler);
 		model.addObserver((Observer) vue);
 		vue.go();
+		
 	}
 
 }

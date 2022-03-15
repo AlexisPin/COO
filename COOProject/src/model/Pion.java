@@ -9,13 +9,16 @@ public class Pion extends AbstractPiece implements Pions{
 
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret = false;
+		if(getX() == xFinal && yFinal == getY() + 1) {
+			ret = true;
+		}
+		return ret;
 	}
 
 	@Override
 	public boolean isMoveDiagOk(int xFinal, int yFinal) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 	

@@ -32,15 +32,19 @@ public abstract class AbstractPiece implements Pieces{
 	abstract public boolean isMoveOk(int xFinal,int  yFinal);
 	
 	public boolean move(int x, int y) {
-		return false;
+		boolean ret = false;
+		if(isMoveOk(x, y)) {
+			coord.x = x;
+			coord.y = y;
+			ret = true;
+		}
+		return ret;
 	}
 
 	@Override
 	public String toString() {
-		return "AbstractPiece [couleur=" + couleur + ", coord=" + coord + ", name=" + name + "]";
+		return "[coord=" + coord + ", name=" + name + "]";
 	}
-	
-	
 	
 	
 }

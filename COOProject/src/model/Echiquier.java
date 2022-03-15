@@ -34,6 +34,7 @@ public class Echiquier implements BoardGames{
 	}
 	
 	public boolean isMoveOk(int xInt, int yInt, int xFinal, int yFinal) {
+
 		return false;
 	}
 		

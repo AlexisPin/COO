@@ -9,9 +9,12 @@ public class Fou extends AbstractPiece {
 
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret = false;
+		if(Math.abs(getX()-xFinal) == Math.abs(getY()-yFinal)) {
+			if(getX()+xFinal < 8 && getX()+xFinal > 0 && getY()+yFinal < 8 && getY()+yFinal > 0) {
+				ret = true;
+			}
+		}
+		return ret;
 	}
-
-	
 }
