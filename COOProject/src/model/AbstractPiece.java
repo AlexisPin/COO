@@ -5,7 +5,7 @@ public abstract class AbstractPiece implements Pieces{
 	public Couleur couleur;
 	public Coord coord;
 	public String name;
-	
+
 	
 	public AbstractPiece(Couleur couleur,Coord coord) {
 		this.couleur = couleur;
@@ -38,6 +38,7 @@ public abstract class AbstractPiece implements Pieces{
 			coord.y = y;
 			ret = true;
 		}
+
 		return ret;
 	}
 

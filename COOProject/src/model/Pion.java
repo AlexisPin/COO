@@ -10,7 +10,13 @@ public class Pion extends AbstractPiece implements Pions{
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
 		boolean ret = false;
-		if(getX() == xFinal && yFinal == getY() + 1) {
+		int deltaY = 0;
+		if(this.couleur == Couleur.NOIR) {
+			deltaY = 1;
+		}else if(this.couleur == Couleur.BLANC) {
+			deltaY = -1;
+		}
+		if(getX() == xFinal && yFinal == getY() + deltaY) {
 			ret = true;
 		}
 		return ret;
@@ -22,8 +28,9 @@ public class Pion extends AbstractPiece implements Pions{
 		return false;
 	}
 	
+	@Override
 	public boolean move(int x, int y) {
-		return false;
+		return super.move(x, y);
 	}
 
 }
