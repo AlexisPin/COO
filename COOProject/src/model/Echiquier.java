@@ -20,8 +20,8 @@ public class Echiquier implements BoardGames{
 
 	@Override
 	public boolean isEnd() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret  = false;
+		return ret;
 	}
 
 	public String getMessage() {
@@ -57,10 +57,12 @@ public class Echiquier implements BoardGames{
 							 if(currentGame.isPieceHere(xFinal, yFinal)) {
 								 if(currentGame.getPieceColor(xFinal, yFinal) != currentGame.getCouleur()) {
 									 ret = true;
+									 currentGame.capture(xFinal, yFinal);
+								 }else {
+									 currentGame.setCastling();
 								 }
 							 }else {
 								 ret = true;
-								 
 							 }
 						 }
 					 }
@@ -74,6 +76,7 @@ public class Echiquier implements BoardGames{
 		boolean ret = false;
 		if(isMoveOk(xInit, yInit, xFinal, yFinal)) {
 			currentGame.move(xInit, yInit, xFinal, yFinal);
+			setMessage("OK : déplacement sans capture");
 			ret = true;
 		}
 		return ret;
@@ -100,8 +103,13 @@ public class Echiquier implements BoardGames{
 	}
 	
 	public List<PieceIHM> getPiecesIHM() {
-		return null;
-		
+		List<PieceIHM> concat_list = new ArrayList<PieceIHM>();
+		List<PieceIHM> list = null;
+		for(Jeu jeu : jeux) {
+			list =  jeu.getPiecesIHM();
+			concat_list.addAll(list);
+		}
+		return concat_list;    
 	}
 	
 	private boolean validCoord(int x, int y) {
@@ -122,6 +130,7 @@ public class Echiquier implements BoardGames{
 		System.out.println(echiquier.move(0, 1, 0, 2));
 		echiquier.switchJoueur();
 		System.out.println(echiquier.move(0, 6, 0, 5));
+		System.out.println(echiquier.getPiecesIHM());
 	}
 	
 

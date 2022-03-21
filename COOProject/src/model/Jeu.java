@@ -3,6 +3,7 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import tools.ChessPiecesFactory;
 import tools.ChessSinglePieceFactory;
@@ -12,6 +13,7 @@ public class Jeu {
 	private List<Pieces> pieces;
 	private int previousMovedIndexPiece;
 	private Pieces previousMovedPiece;
+	private Stack<Pieces> listCapturedPiece;
 	
 	public Jeu(Couleur couleur) {
 		this.couleur = couleur;
@@ -21,6 +23,10 @@ public class Jeu {
 	public boolean capture(int xCatch, int yCatch) {
 		boolean ret = true;
 		if(isPieceHere(xCatch, yCatch)) {
+			Pieces currentPiece = findPiece(xCatch, yCatch);
+			int currentPieceIndex  = pieces.indexOf(currentPiece);
+			listCapturedPiece.add(currentPiece);
+			pieces.remove(currentPieceIndex);
 			ret = true;
 		}
 		return ret;
@@ -41,7 +47,13 @@ public class Jeu {
 	}
 	
 	public Coord getKingCoord() {
-		return new Coord(pieces.get(7).getX(),pieces.get(7).getY());
+		Coord kingCoord = null;
+		for(Pieces piece : pieces) {
+			if(getPieceType(piece.getX(), piece.getY()) == Roi.class.getSimpleName()) {
+				kingCoord = new Coord(piece.getX(),piece.getY());
+			}
+		}
+		return kingCoord;
 	}
 	
 	/**              
@@ -49,7 +61,6 @@ public class Jeu {
 	* ne donnant que des accès en lecture sur des PieceIHM        
 	* (type piece + couleur + liste de coordonnées)              
 	*/
-
 	public List<PieceIHM> getPiecesIHM(){               
 		PieceIHM newPieceIHM = null;               
 		List<PieceIHM>  list = new LinkedList<PieceIHM>(); 
@@ -141,11 +152,14 @@ public class Jeu {
 	}
 	
 	public void setPossbileCapture() {
-		
+		for(Pieces piece : pieces) {
+			
+		}
 	}
 	
 	public void undoCapture() {
-		
+		Pieces lastCapturedPiece = listCapturedPiece.pop();
+		pieces.add(lastCapturedPiece);
 	}
 	
 	public void undoMove() {
@@ -154,7 +168,7 @@ public class Jeu {
 	}
 	
 	public void setCastling() {
-		
+		Coord kingCoord = getKingCoord();
 	}
 	
 	private Pieces findPiece(int x, int y) {
@@ -195,6 +209,11 @@ public class Jeu {
 		Pieces piecePromo = jeu.findPiece(3, 0);
 		System.out.println(piecePromo);
 		System.out.println(jeu.isPieceHere(3, 0));
+		System.out.println(jeu.getKingCoord());
+		boolean roi = jeu.move(4, 7, 4, 6);
+		System.out.println(roi);
+		System.out.println(jeu.getKingCoord());
+		System.out.println(jeu);
 	}
 	
 }
