@@ -29,7 +29,7 @@ public class Cavalier extends AbstractPiece {
 				Integer comb[] = {getX() + deltaX*minusPlus, getY() + deltaY};
 				++leftRight;
 				deltaY *= -1;
-				if(comb[0] > -1 && comb[0] < 8 && comb[1] < 8 && comb[1] > -1) {
+				if(isValidCoord(comb[0], comb[1])) {
 					if(comb[0] == nextCoord[0] && comb[1] == nextCoord[1]) {
 						ret = true;
 						break;

@@ -4,6 +4,7 @@ package model;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.IntStream;
 
 import tools.ChessPiecesFactory;
 import tools.ChessSinglePieceFactory;
@@ -200,17 +201,40 @@ public class Jeu {
 		Pieces currentPiece = findPiece(xInit, yInit);
 		if(currentPiece.getClass().getSimpleName() == Cavalier.class.getSimpleName())
 		{
-			if(!isPieceHere(xFinal, yFinal)) {
+			if(isPieceHere(xFinal, yFinal)) {
 				ret = true;
 			}
 		}else {
 
+			int[] xArray = IntStream.range(xInit+1, Math.abs(xFinal-xInit)).toArray();
+			int[] yArray = IntStream.range(yInit+1, Math.abs(yFinal-yInit)).toArray();
+			System.out.println(xArray.length);
+			if(xArray.length > 0) {
+				for(int x : xArray) {
+					
+					for(int y : yArray) {
+						if(isPieceHere(x, y)) {
+							ret = true;
+						}
+					}
+				}
+			}else {
+				for(int y : yArray) {
+					if(isPieceHere(xInit, y)) {
+						ret = true;
+					}
+				}
+			}
+
 		}
+		System.out.println("piece intermediaire " + ret);
 		return ret;
 	}
 	
 	public static void main(String[] args) {
 		Jeu jeu = new Jeu(Couleur.BLANC);
+		jeu.isIntermediatePiece(0, 6, 0, 5);
+		jeu.isIntermediatePiece(0, 7, 0, 5);
 		boolean piece = jeu.move(3, 6, 3, 5);
 		boolean pieceHere = jeu.isPieceHere(3, 4);
 		System.out.println(piece);
