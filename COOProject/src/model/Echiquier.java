@@ -51,10 +51,14 @@ public class Echiquier implements BoardGames{
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
 			if(currentGame.isPieceHere(xInit, yInit)) {
-				 if(validCoord(xFinal, yFinal) && ( xInit != xFinal || yFinal != yInit)) {
+				 if(validCoord(xInit,yInit,xFinal, yFinal)) {
+					 
 					 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {
-						 if(currentGame.capture(xFinal, yFinal)) {
+						 
+						 if(!currentGame.isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
+							 
 							 if(currentGame.isPieceHere(xFinal, yFinal)) {
+								 
 								 if(currentGame.getPieceColor(xFinal, yFinal) != currentGame.getCouleur()) {
 									 ret = true;
 									 currentGame.capture(xFinal, yFinal);
@@ -62,6 +66,7 @@ public class Echiquier implements BoardGames{
 									 currentGame.setCastling();
 								 }
 							 }else {
+									
 								 ret = true;
 							 }
 						 }
@@ -76,8 +81,10 @@ public class Echiquier implements BoardGames{
 		boolean ret = false;
 		if(isMoveOk(xInit, yInit, xFinal, yFinal)) {
 			currentGame.move(xInit, yInit, xFinal, yFinal);
-			setMessage("OK : d�placement sans capture");
+			setMessage("OK : déplacement sans capture");
 			ret = true;
+		}else {
+			setMessage("Déplacement non autorisé");
 		}
 		return ret;
 	}
@@ -112,10 +119,12 @@ public class Echiquier implements BoardGames{
 		return concat_list;    
 	}
 	
-	private boolean validCoord(int x, int y) {
+	private boolean validCoord( int xInit, int yInit,int xFinal, int yFinal) {
 		boolean ret = false;
-		if(x > -1 && x < 8 && y < 8 && y > -1) {
-			ret  = true;
+		if(xFinal > -1 && xFinal < 8 && yFinal < 8 && yFinal > -1) {
+			if(xInit != xFinal || yFinal != yInit) {
+				ret  = true;
+			}
 		}
 		return ret;
 	}

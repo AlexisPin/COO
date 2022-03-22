@@ -21,13 +21,15 @@ public class Jeu {
 	}
 	
 	public boolean capture(int xCatch, int yCatch) {
-		boolean ret = true;
+		boolean ret = false;
 		if(isPieceHere(xCatch, yCatch)) {
 			Pieces currentPiece = findPiece(xCatch, yCatch);
 			int currentPieceIndex  = pieces.indexOf(currentPiece);
-			listCapturedPiece.add(currentPiece);
-			pieces.remove(currentPieceIndex);
-			ret = true;
+			if(currentPiece.capture()) {
+				ret = true;	
+				listCapturedPiece.add(currentPiece);
+				pieces.remove(currentPieceIndex);
+			}
 		}
 		return ret;
 	}
@@ -57,9 +59,9 @@ public class Jeu {
 	}
 	
 	/**              
-	*  @return une vue de la liste des pièces en cours        
-	* ne donnant que des accès en lecture sur des PieceIHM        
-	* (type piece + couleur + liste de coordonnées)              
+	*  @return une vue de la liste des piï¿½ces en cours        
+	* ne donnant que des accï¿½s en lecture sur des PieceIHM        
+	* (type piece + couleur + liste de coordonnï¿½es)              
 	*/
 	public List<PieceIHM> getPiecesIHM(){               
 		PieceIHM newPieceIHM = null;               
@@ -67,8 +69,8 @@ public class Jeu {
 		
 		for (Pieces piece : pieces){ 
 			boolean existe = false; 
-			// si le type de piece existe déjà dans la liste de PieceIHM
-			// ajout des coordonnées de la pièce dans la liste de Coord de ce type 
+			// si le type de piece existe dï¿½jï¿½ dans la liste de PieceIHM
+			// ajout des coordonnï¿½es de la piï¿½ce dans la liste de Coord de ce type 
 			// si elle est toujours en jeu (x et y != -1)
 			for ( PieceIHM pieceIHM : list){                                   
 				if ((pieceIHM.getTypePiece()).equals(piece.getClass().getSimpleName())){ 
@@ -78,7 +80,7 @@ public class Jeu {
 					}     
 				}       
 			} 
-			// sinon, création d'une nouvelle PieceIHM si la pièce est toujours en jeu
+			// sinon, crï¿½ation d'une nouvelle PieceIHM si la piï¿½ce est toujours en jeu
 			if (! existe) { 
 				if (piece.getX()!= -1){  
 					newPieceIHM = new PieceIHM(piece.getClass().getSimpleName(), piece.getCouleur()); 
@@ -192,6 +194,21 @@ public class Jeu {
 		return ret;
 	}
 	
+
+	public boolean isIntermediatePiece(int xInit, int yInit, int xFinal, int yFinal) {
+		boolean ret = false;
+		Pieces currentPiece = findPiece(xInit, yInit);
+		if(currentPiece.getClass().getSimpleName() == Cavalier.class.getSimpleName())
+		{
+			if(!isPieceHere(xFinal, yFinal)) {
+				ret = true;
+			}
+		}else {
+
+		}
+		return ret;
+	}
+	
 	public static void main(String[] args) {
 		Jeu jeu = new Jeu(Couleur.BLANC);
 		boolean piece = jeu.move(3, 6, 3, 5);
@@ -215,5 +232,6 @@ public class Jeu {
 		System.out.println(jeu.getKingCoord());
 		System.out.println(jeu);
 	}
+
 	
 }

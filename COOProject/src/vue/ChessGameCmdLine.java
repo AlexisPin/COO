@@ -78,19 +78,26 @@ public class ChessGameCmdLine implements Observer{
 		System.out.print("\n Déplacement de 3,6 vers 3,4 = ");
 		chessGameControler.move(new Coord(3,6), new Coord(3, 4));	// true
 
-		// dans ce cas, update non appelé et pas d'affichage 
-		// controleur empêche le move car pas le bon joueur
-		System.out.print("\n Déplacement de 3,4 vers 3,6 = ");		
-		chessGameControler.move(new Coord(3,4), new Coord(3, 6));	// false 
-
+		
 		System.out.print("\n Déplacement de 4,1 vers 4,3 = ");
 		chessGameControler.move(new Coord(4, 1), new Coord(4, 3));	// true
 
-		System.out.print("\n Déplacement de 3,4 vers 3,4 = ");
-		chessGameControler.move(new Coord(3, 4), new Coord(3, 4));	// false
+		System.out.print("\n Déplacement de 7,3 vers 5,3 = ");		
+		chessGameControler.move(new Coord(7,3), new Coord(5, 3));	// true
+		
+		System.out.print("\n Déplacement de 4,6 vers 4,5 = ");
+		chessGameControler.move(new Coord(4,6), new Coord(4, 5));	// true
+		
 
-		System.out.print("\n Déplacement de 3,4 vers 4,3 = ");
-		chessGameControler.move(new Coord(3, 4), new Coord(4, 3));	// true		
+		System.out.print("\n Déplacement de 4.3 vers 4,4 = ");
+		chessGameControler.move(new Coord(4,3), new Coord(4, 4));	// true
+		
+		System.out.print("\n Déplacement de 7,5 vers 5,2 = ");
+		chessGameControler.move(new Coord(1,7), new Coord(0,5));	// true
+		
+		System.out.print("\n Déplacement de 7,5 vers 5,2 = ");
+		chessGameControler.move(new Coord(5,0), new Coord(0,5));	// true
+		
 
 	}
 

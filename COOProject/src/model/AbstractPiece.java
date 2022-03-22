@@ -14,7 +14,9 @@ public abstract class AbstractPiece implements Pieces{
 	}
 	
 	public boolean capture() {
-		return false;
+		coord.x = -1;
+		coord.y = -1;
+		return true;
 	}
 	
 	public Couleur getCouleur() {
@@ -47,5 +49,11 @@ public abstract class AbstractPiece implements Pieces{
 		return "[coord=" + coord + ", name=" + name + "]";
 	}
 	
-	
+	public boolean isValidCoord(int x, int y) {
+		boolean ret = false;
+		if(x < 8 && x > -1 && y< 8 && y> -1) {
+			ret = true;
+		}
+		return ret;
+	}
 }

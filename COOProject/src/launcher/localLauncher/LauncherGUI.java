@@ -3,7 +3,9 @@ package launcher.localLauncher;
 import java.awt.Dimension;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import controler.ChessGameControlers;
 import controler.controlerLocal.ChessGameControler;
@@ -37,6 +39,7 @@ public class LauncherGUI {
 		chessGameControler = new ChessGameControler(chessGame);
 		
 		frame = new ChessGameGUI("Jeu d'échec", chessGameControler,  dim);
+		frame.add(new JLabel(new ImageIcon("images/damier.png")));
 		chessGame.addObserver((Observer) frame);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
