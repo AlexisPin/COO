@@ -51,7 +51,7 @@ public abstract class AbstractPiece implements Pieces{
 	
 	public boolean isValidCoord(int x, int y) {
 		boolean ret = false;
-		if(x < 8 && x > -1 && y< 8 && y> -1) {
+		if(x < 8 && x > -1 && y< 8 && y> -1 && x != getX() && y != getY()) {
 			ret = true;
 		}
 		return ret;

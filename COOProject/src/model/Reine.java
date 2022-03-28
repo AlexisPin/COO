@@ -9,8 +9,16 @@ public class Reine extends AbstractPiece {
 
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret = false;
+		if(isValidCoord(xFinal, yFinal)) {
+			if(xFinal == getX() || yFinal == getY()) {
+				ret = true;
+			}
+			else if(Math.abs(getX()-xFinal) == Math.abs(getY()-yFinal)) {
+				ret = true;
+			}
+		}
+		return ret;
 	}
 
 }

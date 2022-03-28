@@ -39,12 +39,11 @@ public class LauncherGUI {
 		chessGameControler = new ChessGameControler(chessGame);
 		
 		frame = new ChessGameGUI("Jeu d'échec", chessGameControler,  dim);
-		frame.add(new JLabel(new ImageIcon("images/damier.png")));
 		chessGame.addObserver((Observer) frame);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(600, 10);
-		frame.setPreferredSize(dim);
+		//frame.setPreferredSize(dim);
 		frame.pack();
 		frame.setVisible(true);
 	}

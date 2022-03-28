@@ -208,7 +208,6 @@ public class Jeu {
 
 			int[] xArray = IntStream.range(xInit+1, Math.abs(xFinal-xInit)).toArray();
 			int[] yArray = IntStream.range(yInit+1, Math.abs(yFinal-yInit)).toArray();
-			System.out.println(xArray.length);
 			if(xArray.length > 0) {
 				for(int x : xArray) {
 					
@@ -227,7 +226,6 @@ public class Jeu {
 			}
 
 		}
-		System.out.println("piece intermediaire " + ret);
 		return ret;
 	}
 	

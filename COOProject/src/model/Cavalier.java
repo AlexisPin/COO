@@ -10,31 +10,9 @@ public class Cavalier extends AbstractPiece {
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
 		boolean ret = false;
-		Integer nextCoord[] = {xFinal, yFinal};
-		if(xFinal != this.getX() && yFinal != this.getY()) {
-			int deltaX = 2;
-			int deltaY = 1;
-			int minusPlus = 1;
-			int leftRight = 0;
-
-			for(int i = 0; i < 8; i++ ) {
-				if(i == 4) {
-					deltaX = 1;
-					deltaY = 2;
-				}
-				if(leftRight == 2) {
-					leftRight = 0;
-					minusPlus *= -1;
-				}
-				Integer comb[] = {getX() + deltaX*minusPlus, getY() + deltaY};
-				++leftRight;
-				deltaY *= -1;
-				if(isValidCoord(comb[0], comb[1])) {
-					if(comb[0] == nextCoord[0] && comb[1] == nextCoord[1]) {
-						ret = true;
-						break;
-					}
-				}
+		if(isValidCoord(xFinal, yFinal)) {
+			if((Math.abs(this.getX() - xFinal) == 2 &&  Math.abs(this.getY() - yFinal) == 1) || (Math.abs(this.getY() - yFinal) == 2 && Math.abs(this.getX() - xFinal) == 1 )) {
+				ret = true;
 			}
 		}
 		return ret;

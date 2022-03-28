@@ -6,7 +6,7 @@ import java.util.List;
 public class Echiquier implements BoardGames{
 	public Jeu jeuNoir;
 	public Jeu jeuBlanc;
-	private String message;
+	private String message  = "La partie commence !";
 	private List<Jeu> jeux = new ArrayList<Jeu>();
 	private Jeu currentGame;
 
@@ -81,10 +81,10 @@ public class Echiquier implements BoardGames{
 		boolean ret = false;
 		if(isMoveOk(xInit, yInit, xFinal, yFinal)) {
 			currentGame.move(xInit, yInit, xFinal, yFinal);
-			setMessage("OK : dÃ©placement sans capture");
+			setMessage("OK : déplacement sans capture");
 			ret = true;
 		}else {
-			setMessage("DÃ©placement non autorisÃ©");
+			setMessage("KO:la position finale ne correspond pas à algo de déplacement légal de la pièce");
 		}
 		return ret;
 	}
@@ -97,7 +97,7 @@ public class Echiquier implements BoardGames{
 		else {
 			currentGame = jeux.get(0);
 		}
-			
+		setMessage("KO:c'est au tour de l'autre joueur");
 	}
 
 	@Override
