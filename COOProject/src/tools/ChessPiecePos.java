@@ -14,7 +14,7 @@ public enum ChessPiecePos {
 	FOUBLANC("Fou", Couleur.BLANC, new Coord[] {new Coord(2,7), new Coord(5,7)}), 
 	REINEBLANC("Reine", Couleur.BLANC, new Coord[] {new Coord(3,7)}), 
 	ROIBLANC("Roi", Couleur.BLANC, new Coord[] {new Coord(4,7)}),
-	PIONBLANC("Pion", Couleur.BLANC, new Coord[] {new Coord(0,6), new Coord(1,6), new Coord(2,6), new Coord(3,6),
+	PIONBLANC("PionBlanc", Couleur.BLANC, new Coord[] {new Coord(0,6), new Coord(1,6), new Coord(2,6), new Coord(3,6),
 			new Coord(4,6), new Coord(5,6), new Coord(6,6), new Coord(7,6)}),
 			
 	TOURNOIR("Tour", Couleur.NOIR, new Coord[] {new Coord(0,0), new Coord(7,0)}),
@@ -22,7 +22,7 @@ public enum ChessPiecePos {
 	FOUNOIR("Fou", Couleur.NOIR, new Coord[] {new Coord(2,0), new Coord(5,0)}), 
 	REINENOIR("Reine", Couleur.NOIR, new Coord[] {new Coord(3,0)}), 
 	ROINOIR("Roi", Couleur.NOIR, new Coord[] {new Coord(4,0)}),
-	PIONNOIR("Pion", Couleur.NOIR, new Coord[] {new Coord(0,1), new Coord(1,1), new Coord(2,1), new Coord(3,1),
+	PIONNOIR("PionNoir", Couleur.NOIR, new Coord[] {new Coord(0,1), new Coord(1,1), new Coord(2,1), new Coord(3,1),
 			new Coord(4,1), new Coord(5,1), new Coord(6,1), new Coord(7,1)})   
 	; 
 	public String nom;

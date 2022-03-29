@@ -10,7 +10,7 @@ public class Roi extends AbstractPiece {
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
 		boolean ret = false;
-		if(isValidCoord(xFinal, yFinal)) {
+		if(xFinal != getX() && yFinal != getY()) {
 			if(Math.abs(this.getX() - xFinal) == 1 ||  Math.abs(this.getY() - yFinal) == 1) {
 				ret = true;
 			}

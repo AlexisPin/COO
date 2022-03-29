@@ -36,9 +36,11 @@ public abstract class AbstractPiece implements Pieces{
 	public boolean move(int x, int y) {
 		boolean ret = false;
 		if(isMoveOk(x, y)) {
-			coord.x = x;
-			coord.y = y;
-			ret = true;
+			if(Coord.coordonnees_valides(x, y)) {
+				coord.x = x;
+				coord.y = y;
+				ret = true;
+			}
 		}
 
 		return ret;
@@ -49,11 +51,4 @@ public abstract class AbstractPiece implements Pieces{
 		return "[coord=" + coord + ", name=" + name + "]";
 	}
 	
-	public boolean isValidCoord(int x, int y) {
-		boolean ret = false;
-		if(x < 8 && x > -1 && y< 8 && y> -1 && x != getX() && y != getY()) {
-			ret = true;
-		}
-		return ret;
-	}
 }

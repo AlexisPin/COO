@@ -9,7 +9,7 @@ public class Fou extends AbstractPiece {
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
 		boolean ret = false;
-		if(isValidCoord(xFinal, yFinal)) {
+		if(xFinal != getX() && yFinal != getY()) {
 			if(Math.abs(getX()-xFinal) == Math.abs(getY()-yFinal)) {
 					ret = true;
 			}

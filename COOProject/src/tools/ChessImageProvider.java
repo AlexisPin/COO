@@ -40,10 +40,13 @@ public class ChessImageProvider {
 	public static String getImageFile(String pieceType, Couleur pieceCouleur){
 		String ret, key, value;
 		ret = null;
+		if(pieceType.equals("PionBlanc") || pieceType.equals("PionNoir")) {
+			pieceType = pieceType.substring(0, 4);
+		}
 		key = pieceType + pieceCouleur.name();
 		value = mapImage.get(key);
 		File g=new File("");
-		ret = g.getAbsolutePath()+"\\images\\" + value;
+		ret = g.getAbsolutePath()+"/images/" + value;
 		return ret;		
 	}
 
@@ -52,7 +55,7 @@ public class ChessImageProvider {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println(ChessImageProvider.getImageFile("Cavalier", Couleur.BLANC));
+		System.out.println(ChessImageProvider.getImageFile("PionBlanc", Couleur.BLANC));
 	}
 
 }

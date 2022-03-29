@@ -51,8 +51,7 @@ public class Echiquier implements BoardGames{
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
 			if(currentGame.isPieceHere(xInit, yInit)) {
-				 if(validCoord(xInit,yInit,xFinal, yFinal)) {
-					 
+				 if(Coord.coordonnees_valides(xFinal, yFinal)) {
 					 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {
 						 
 						 if(!currentGame.isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
@@ -62,14 +61,17 @@ public class Echiquier implements BoardGames{
 								 if(currentGame.getPieceColor(xFinal, yFinal) != currentGame.getCouleur()) {
 									 ret = true;
 									 currentGame.capture(xFinal, yFinal);
+									 setMessage("OK : dÃ©placement + capture");
 								 }else {
 									 currentGame.setCastling();
 								 }
 							 }else {
-									
+								 setMessage("OK : dÃ©placement sans capture");
 								 ret = true;
 							 }
 						 }
+					 }else {
+						setMessage("KO:la position finale ne correspond pas Ã  algo de dÃ©placement lÃ©gal de la piÃ¨ce");
 					 }
 				 }
 			}
@@ -81,10 +83,7 @@ public class Echiquier implements BoardGames{
 		boolean ret = false;
 		if(isMoveOk(xInit, yInit, xFinal, yFinal)) {
 			currentGame.move(xInit, yInit, xFinal, yFinal);
-			setMessage("OK : déplacement sans capture");
 			ret = true;
-		}else {
-			setMessage("KO:la position finale ne correspond pas à algo de déplacement légal de la pièce");
 		}
 		return ret;
 	}
@@ -97,7 +96,7 @@ public class Echiquier implements BoardGames{
 		else {
 			currentGame = jeux.get(0);
 		}
-		setMessage("KO:c'est au tour de l'autre joueur");
+		System.out.println("KO:c'est au tour de l'autre joueur");
 	}
 
 	@Override
@@ -119,16 +118,7 @@ public class Echiquier implements BoardGames{
 		return concat_list;    
 	}
 	
-	private boolean validCoord( int xInit, int yInit,int xFinal, int yFinal) {
-		boolean ret = false;
-		if(xFinal > -1 && xFinal < 8 && yFinal < 8 && yFinal > -1) {
-			if(xInit != xFinal || yFinal != yInit) {
-				ret  = true;
-			}
-		}
-		return ret;
-	}
-	
+
 	public static void main(String[] args) {
 		Echiquier echiquier = new Echiquier();
 		System.out.println(echiquier);

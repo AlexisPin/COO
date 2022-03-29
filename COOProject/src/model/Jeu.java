@@ -99,6 +99,11 @@ public class Jeu {
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
 		Pieces currentPiece = findPiece(xInit, yInit);
+		if(currentPiece.getClass() == PionBlanc.class || currentPiece.getClass() == PionNoir.class) {
+			if(isPieceHere(xFinal, yFinal) && ((Pion) currentPiece).isMoveDiagOk(xFinal, yFinal)) {
+				ret = true;
+			}	
+		}
 		if(currentPiece.isMoveOk(xFinal, yFinal)) {
 			ret = true;
 		}
@@ -190,6 +195,7 @@ public class Jeu {
 	public String toString() {
 		String ret = "";
 		for(Pieces piece : pieces) {
+			System.out.println(piece);
 			ret += piece.toString();
 		}
 		return ret;
@@ -234,7 +240,7 @@ public class Jeu {
 		jeu.isIntermediatePiece(0, 6, 0, 5);
 		jeu.isIntermediatePiece(0, 7, 0, 5);
 		boolean piece = jeu.move(3, 6, 3, 5);
-		boolean pieceHere = jeu.isPieceHere(3, 4);
+		boolean pieceHere = jeu.isPieceHere(3, 5);
 		System.out.println(piece);
 		jeu.undoMove();
 		System.out.println(jeu);
