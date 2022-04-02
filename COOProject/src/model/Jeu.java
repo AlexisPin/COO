@@ -30,6 +30,7 @@ public class Jeu {
 				ret = true;	
 				listCapturedPiece.add(currentPiece);
 				pieces.remove(currentPieceIndex);
+				System.out.println("capturé");
 			}
 		}
 		return ret;
@@ -195,7 +196,6 @@ public class Jeu {
 	public String toString() {
 		String ret = "";
 		for(Pieces piece : pieces) {
-			System.out.println(piece);
 			ret += piece.toString();
 		}
 		return ret;
@@ -235,6 +235,9 @@ public class Jeu {
 		return ret;
 	}
 	
+	public List<Pieces> getList(){
+		return pieces;
+	}
 	public static void main(String[] args) {
 		Jeu jeu = new Jeu(Couleur.BLANC);
 		jeu.isIntermediatePiece(0, 6, 0, 5);

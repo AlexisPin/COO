@@ -50,15 +50,16 @@ public class Echiquier implements BoardGames{
 	
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
+		if(Coord.coordonnees_valides(xFinal, yFinal)) {
+			
 			if(currentGame.isPieceHere(xInit, yInit)) {
-				 if(Coord.coordonnees_valides(xFinal, yFinal)) {
+				 
 					 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {
 						 
 						 if(!currentGame.isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
-							 
-							 if(currentGame.isPieceHere(xFinal, yFinal)) {
-								 
-								 if(currentGame.getPieceColor(xFinal, yFinal) != currentGame.getCouleur()) {
+							 jeuBlanc.getList().
+							 if(isPieceHere(xFinal, yFinal)) {
+								 if(currentGame.getPieceColor(xFinal, yFinal) == currentGame.getCouleur()) {
 									 ret = true;
 									 currentGame.capture(xFinal, yFinal);
 									 setMessage("OK : déplacement + capture");
@@ -96,7 +97,7 @@ public class Echiquier implements BoardGames{
 		else {
 			currentGame = jeux.get(0);
 		}
-		System.out.println("KO:c'est au tour de l'autre joueur");
+		System.out.println("KO:c'est au tour du joueur " + currentGame.getCouleur());
 	}
 
 	@Override
@@ -117,19 +118,23 @@ public class Echiquier implements BoardGames{
 		}
 		return concat_list;    
 	}
-	
+	public boolean isPieceHere(int x, int y) {
+		boolean ret = false;
+		for(Jeu jeu : jeux) {
+			for(Pieces piece : jeu.getList()) {
+				if(piece.getX() == x && piece.getY() == y ) {
+					ret = true;
+					break;
+				}
+			}
+		}
+		return ret;
+	}
 
 	public static void main(String[] args) {
 		Echiquier echiquier = new Echiquier();
 		System.out.println(echiquier);
-		//System.out.println(echiquier.getPieceColor(0, 0));
-		System.out.println(echiquier.getColorCurrentPlayer());
-		echiquier.switchJoueur();
-		System.out.println(echiquier.getColorCurrentPlayer());
-		System.out.println(echiquier.move(0, 1, 0, 2));
-		echiquier.switchJoueur();
-		System.out.println(echiquier.move(0, 6, 0, 5));
-		System.out.println(echiquier.getPiecesIHM());
+
 	}
 	
 

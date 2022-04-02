@@ -10,7 +10,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
@@ -84,15 +83,15 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 
 			Couleur color = pieceIHM.getCouleur();
 			String type = pieceIHM.getTypePiece(); 
-			
+			List<Coord> previousCoord = pieceIHM.getList();
 			for(Coord coord : pieceIHM.getList()) {
 				piece = new JLabel(new ImageIcon(ChessImageProvider.getImageFile(type, color)));
 				panel = (JPanel)chessBoard.getComponent(coord.y*8 + coord.x);
-				panel.add(piece);
+				if(panel.getComponentCount() < 1) {
+					panel.add(piece);
+				}
 			}			
 		}
-		
-		
 	}
 
 	@Override
@@ -130,6 +129,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	public void mousePressed(MouseEvent e) {
 		  chessPiece = null;
 		  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
+		  initCoord = getCoord(c);
 		  if (c instanceof JPanel) 
 		  return;
 		 
@@ -140,7 +140,6 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		  chessPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 		  chessPiece.setSize(chessPiece.getWidth(), chessPiece.getHeight());
 		  layeredPane.add(chessPiece, JLayeredPane.DRAG_LAYER);
-		  initCoord = getCoord(c);
 	}
 
 	private Coord getCoord(Component c) {

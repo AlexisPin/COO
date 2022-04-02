@@ -14,8 +14,7 @@ public abstract class AbstractPiece implements Pieces{
 	}
 	
 	public boolean capture() {
-		coord.x = -1;
-		coord.y = -1;
+		coord = new Coord(-1,-1);
 		return true;
 	}
 	
