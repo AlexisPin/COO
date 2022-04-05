@@ -55,45 +55,46 @@ public class Echiquier implements BoardGames{
 	
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
-		if(Coord.coordonnees_valides(xFinal, yFinal)) {
-			
-			if(currentGame.isPieceHere(xInit, yInit)) {
-				System.out.println("ok");
-				 
-					 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {
-						 
-						 if(!isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
-							 
-							 if(currentGame.isPieceHere(xFinal, yFinal)) {
-								 if(true) {
-									 ret = true;
-									 currentGame.setCastling();
-									 setMessage("OK : roque du roi");
-								 }
-							 }else if(notCurrentGame.isPieceHere(xFinal, yFinal)){
-								 notCurrentGame.capture(xFinal, yFinal);
-								 setMessage("OK : déplacement + capture");
-								 ret = true;
-							 }else {
-								 ret = true;
-								 setMessage("OK : déplacement sans capture");
-							 }
-						 }
-					 }else {
-						setMessage("KO:la position finale ne correspond pas à algo de déplacement légal de la pièce");
-					 }
-				 }
+		if(notCurrentGame.isPieceHere(xFinal, yFinal)) {			
+			if(currentGame.getPieceType(xInit, yInit).equals("PionNoir") && 
+					Math.abs(xInit-xFinal) == 1 && yFinal == yInit+1) {
+				currentGame.setPossbileCapture();
 			}
+			else if(currentGame.getPieceType(xInit, yInit).equals("PionBlanc") && 
+					Math.abs(xInit-xFinal) == 1 && yFinal+1 == yInit) {
+				currentGame.setPossbileCapture();
+			}
+		}
+		 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {
+			 
+			 if(!isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
+				 
+				 if(currentGame.isPieceHere(xFinal, yFinal)) {
+					 if(true) {
+						 ret = true;
+						 currentGame.setCastling();
+						 setMessage("OK : roque du roi");
+					 }
+				 }else if(notCurrentGame.isPieceHere(xFinal, yFinal)){
+					 notCurrentGame.capture(xFinal, yFinal);
+					 setMessage("OK : déplacement + capture");
+					 ret = true;
+				 }else {
+					 ret = true;
+					 setMessage("OK : déplacement sans capture");
+				 }
+			 }
+		 }else {
+			setMessage("KO:la position finale ne correspond pas à algo de déplacement légal de la pièce");
+		 }
 		return ret;
 	}
 	
 	@Override
 	public boolean move(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
-		if(isMoveOk(xInit, yInit, xFinal, yFinal)) {
-			currentGame.move(xInit, yInit, xFinal, yFinal);
-			ret = true;
-		}
+		currentGame.move(xInit, yInit, xFinal, yFinal);
+		ret = true;
 		return ret;
 	}
 		
@@ -105,6 +106,7 @@ public class Echiquier implements BoardGames{
 				ret = false;		
 		}else {
 			int nbEmptyCase = 0;
+			int positionEnemyPiece = 0;
 			List<Integer> Array = null;
 			if(Math.abs(xInit-xFinal) == Math.abs(yInit-yFinal)) {
 				List<Integer> xArray = Stream.iterate(xFinal > xInit ? xInit+1 : xInit-1, n -> xFinal > xInit ? n + 1 : n-1)
@@ -114,11 +116,17 @@ public class Echiquier implements BoardGames{
                         .limit(Math.abs(yFinal-yInit)-1)
                         .collect(Collectors.toList());
 				for(int i = 0 ; i < xArray.size(); i++) {
-					if(currentGame.isPieceHere(xArray.get(i), yArray.get(i)) || notCurrentGame.isPieceHere(xArray.get(i), yArray.get(i))) {
-						if(getPieceColor(xArray.get(i), yArray.get(i)) != currentGame.getCouleur()) {
-							currentGame.capture(xArray.get(i), yArray.get(i));
+					if(currentGame.isPieceHere(xArray.get(i), yArray.get(i))) {
+						positionEnemyPiece = 1;
+						ret = true;
+					}
+					else if(notCurrentGame.isPieceHere(xArray.get(i), yArray.get(i))) {
+						if(positionEnemyPiece == 0) {
+							currentGame.setPossbileCapture();
 						}
-					}else {
+						ret = true;
+					}
+					else {
 						nbEmptyCase += 1;
 					}
 				}
@@ -128,11 +136,17 @@ public class Echiquier implements BoardGames{
                         .limit(Math.abs(yFinal-yInit)-1)
                         .collect(Collectors.toList());
 				for(int i = 0 ; i < yArray.size(); i++) {
-					if(currentGame.isPieceHere(xInit, yArray.get(i)) || notCurrentGame.isPieceHere(xInit, yArray.get(i))) {						
-						if(getPieceColor(xInit, yArray.get(i)) != currentGame.getCouleur()) {
-							currentGame.capture(xInit, yArray.get(i));
+					if(currentGame.isPieceHere(xInit, yArray.get(i))){
+						positionEnemyPiece = 1;
+						ret = true;
+					}
+					else if(notCurrentGame.isPieceHere(xInit, yArray.get(i))) {
+						if(positionEnemyPiece == 0) {
+							currentGame.setPossbileCapture();
 						}
-					}else {
+						ret = true;
+					}			
+					else {
 						nbEmptyCase += 1;
 					}
 				}
@@ -142,11 +156,17 @@ public class Echiquier implements BoardGames{
                         .limit(Math.abs(xFinal-xInit)-1)
                         .collect(Collectors.toList());
 				for(int i = 0 ; i < xArray.size(); i++) {
-					if(currentGame.isPieceHere(xArray.get(i),yInit) || notCurrentGame.isPieceHere(xArray.get(i),yInit))
-					if(getPieceColor(xArray.get(i),yInit) != currentGame.getCouleur()) {
-						currentGame.capture(xArray.get(i),yInit);
+					if(currentGame.isPieceHere(xArray.get(i),yInit)) {
+						positionEnemyPiece = 1;
 						ret = true;
-					}else {
+					}
+					else if(notCurrentGame.isPieceHere(xArray.get(i),yInit)){
+						if(positionEnemyPiece == 0) {
+							currentGame.setPossbileCapture();
+						}
+						ret = true;
+					}
+					else {
 						nbEmptyCase += 1;
 					}
 				}

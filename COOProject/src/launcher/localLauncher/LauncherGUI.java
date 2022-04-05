@@ -3,9 +3,9 @@ package launcher.localLauncher;
 import java.awt.Dimension;
 import java.util.Observer;
 
-import javax.swing.ImageIcon;
+
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+
 
 import controler.ChessGameControlers;
 import controler.controlerLocal.ChessGameControler;

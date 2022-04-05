@@ -15,6 +15,7 @@ public class Jeu {
 	private int previousMovedIndexPiece;
 	private Pieces previousMovedPiece;
 	private Stack<Pieces> listCapturedPiece = new Stack<Pieces>();
+	private Boolean possibleCapture = false;
 	
 	public Jeu(Couleur couleur) {
 		this.couleur = couleur;
@@ -99,14 +100,18 @@ public class Jeu {
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
 		if(isPieceHere(xInit, yInit)) {
-			Pieces currentPiece = findPiece(xInit, yInit);
-			if(currentPiece.getClass() == PionBlanc.class || currentPiece.getClass() == PionNoir.class) {
-				if(isPieceHere(xFinal, yFinal) && ((Pion) currentPiece).isMoveDiagOk(xFinal, yFinal)) {
+			if(xInit != xFinal || yInit != yFinal) {
+				Pieces currentPiece = findPiece(xInit, yInit);
+				if(currentPiece.isMoveOk(xFinal, yFinal)) {
 					ret = true;
-				}	
-			}
-			if(currentPiece.isMoveOk(xFinal, yFinal)) {
-				ret = true;
+				}
+				if(currentPiece instanceof Pion)
+				{					
+					if(((Pion) currentPiece).isMoveDiagOk(xFinal, yFinal) && possibleCapture) {	
+						possibleCapture = false;
+						ret = true;
+					}
+				}
 			}
 		}
 		return ret;
@@ -162,9 +167,7 @@ public class Jeu {
 	}
 	
 	public void setPossbileCapture() {
-		for(Pieces piece : pieces) {
-			
-		}
+		this.possibleCapture = true;
 	}
 	
 	public void undoCapture() {
