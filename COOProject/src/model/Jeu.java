@@ -23,14 +23,15 @@ public class Jeu {
 	
 	public boolean capture(int xCatch, int yCatch) {
 		boolean ret = false;
+		System.out.println("in capt");
 		if(isPieceHere(xCatch, yCatch)) {
 			Pieces currentPiece = findPiece(xCatch, yCatch);
 			int currentPieceIndex  = pieces.indexOf(currentPiece);
 			if(currentPiece.capture()) {
-				ret = true;	
+				ret = true;
 				listCapturedPiece.add(currentPiece);
 				pieces.remove(currentPieceIndex);
-				System.out.println("capturé");
+				System.out.println("capturÃ©");
 			}
 		}
 		return ret;
@@ -99,14 +100,16 @@ public class Jeu {
 	
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
-		Pieces currentPiece = findPiece(xInit, yInit);
-		if(currentPiece.getClass() == PionBlanc.class || currentPiece.getClass() == PionNoir.class) {
-			if(isPieceHere(xFinal, yFinal) && ((Pion) currentPiece).isMoveDiagOk(xFinal, yFinal)) {
+		if(isPieceHere(xInit, yInit)) {
+			Pieces currentPiece = findPiece(xInit, yInit);
+			if(currentPiece.getClass() == PionBlanc.class || currentPiece.getClass() == PionNoir.class) {
+				if(isPieceHere(xFinal, yFinal) && ((Pion) currentPiece).isMoveDiagOk(xFinal, yFinal)) {
+					ret = true;
+				}	
+			}
+			if(currentPiece.isMoveOk(xFinal, yFinal)) {
 				ret = true;
-			}	
-		}
-		if(currentPiece.isMoveOk(xFinal, yFinal)) {
-			ret = true;
+			}
 		}
 		return ret;
 	} 
@@ -201,47 +204,12 @@ public class Jeu {
 		return ret;
 	}
 	
-
-	public boolean isIntermediatePiece(int xInit, int yInit, int xFinal, int yFinal) {
-		boolean ret = false;
-		Pieces currentPiece = findPiece(xInit, yInit);
-		if(currentPiece.getClass().getSimpleName() == Cavalier.class.getSimpleName())
-		{
-			if(isPieceHere(xFinal, yFinal)) {
-				ret = true;
-			}
-		}else {
-
-			int[] xArray = IntStream.range(xInit+1, Math.abs(xFinal-xInit)).toArray();
-			int[] yArray = IntStream.range(yInit+1, Math.abs(yFinal-yInit)).toArray();
-			if(xArray.length > 0) {
-				for(int x : xArray) {
-					
-					for(int y : yArray) {
-						if(isPieceHere(x, y)) {
-							ret = true;
-						}
-					}
-				}
-			}else {
-				for(int y : yArray) {
-					if(isPieceHere(xInit, y)) {
-						ret = true;
-					}
-				}
-			}
-
-		}
-		return ret;
-	}
 	
 	public List<Pieces> getList(){
 		return pieces;
 	}
 	public static void main(String[] args) {
 		Jeu jeu = new Jeu(Couleur.BLANC);
-		jeu.isIntermediatePiece(0, 6, 0, 5);
-		jeu.isIntermediatePiece(0, 7, 0, 5);
 		boolean piece = jeu.move(3, 6, 3, 5);
 		boolean pieceHere = jeu.isPieceHere(3, 5);
 		System.out.println(piece);

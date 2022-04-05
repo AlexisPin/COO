@@ -9,7 +9,7 @@ public class Tour extends AbstractPiece {
 	@Override
 	public boolean isMoveOk(int xFinal, int yFinal) {
 		boolean ret = false;
-		if(xFinal != getX() && yFinal != getY()) {
+		if(xFinal != getX() || yFinal != getY()) {
 			if(xFinal == getX() || yFinal == getY()) {
 				ret = true;
 			}

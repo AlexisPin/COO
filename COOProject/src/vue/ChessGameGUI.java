@@ -80,14 +80,12 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		
 		// création d'un tableau 2D avec les noms des pièces
 		for(PieceIHM pieceIHM : piecesIHM) {
-
 			Couleur color = pieceIHM.getCouleur();
 			String type = pieceIHM.getTypePiece(); 
-			List<Coord> previousCoord = pieceIHM.getList();
 			for(Coord coord : pieceIHM.getList()) {
 				piece = new JLabel(new ImageIcon(ChessImageProvider.getImageFile(type, color)));
 				panel = (JPanel)chessBoard.getComponent(coord.y*8 + coord.x);
-				if(panel.getComponentCount() < 1) {
+				if(panel.getComponentCount() == 0) {
 					panel.add(piece);
 				}
 			}			
@@ -97,8 +95,9 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		if (chessPiece == null) return;
-		 chessPiece.setLocation(me.getX() + xAdjustment, me.getY() + yAdjustment);
-		 //chessGameControler.move(, me.getY() + yAdjustment/700);
+		if(chessGameControler.isPlayerOK(initCoord)) {			
+			chessPiece.setLocation(me.getX() + xAdjustment, me.getY() + yAdjustment);
+		}
 	}
 
 	@Override
@@ -157,21 +156,20 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		 
 		  chessPiece.setVisible(false);
 		  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
+		  Container parent = c instanceof JLabel ? c.getParent() : (Container)c;
 		  finalCoord = getCoord(c);
-		  System.out.println(finalCoord);
 		  if(chessGameControler.move(initCoord, finalCoord)) {	  
 			  if (c instanceof JLabel){
-				  Container parent = c.getParent();
 				  parent.remove(0);
 				  parent.add( chessPiece );
+				  parent.repaint();
 			  }
 			  else {
-				  Container parent = (Container)c;
 				  parent.add( chessPiece );
+				  parent.repaint();
 			  }
 			  chessPiece.setVisible(true);
 		  }
-
+		  
 	}
-
 }
