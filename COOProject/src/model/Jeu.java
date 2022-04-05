@@ -14,7 +14,7 @@ public class Jeu {
 	private List<Pieces> pieces;
 	private int previousMovedIndexPiece;
 	private Pieces previousMovedPiece;
-	private Stack<Pieces> listCapturedPiece;
+	private Stack<Pieces> listCapturedPiece = new Stack<Pieces>();
 	
 	public Jeu(Couleur couleur) {
 		this.couleur = couleur;
@@ -23,7 +23,6 @@ public class Jeu {
 	
 	public boolean capture(int xCatch, int yCatch) {
 		boolean ret = false;
-		System.out.println("in capt");
 		if(isPieceHere(xCatch, yCatch)) {
 			Pieces currentPiece = findPiece(xCatch, yCatch);
 			int currentPieceIndex  = pieces.indexOf(currentPiece);
@@ -31,7 +30,6 @@ public class Jeu {
 				ret = true;
 				listCapturedPiece.add(currentPiece);
 				pieces.remove(currentPieceIndex);
-				System.out.println("capturé");
 			}
 		}
 		return ret;

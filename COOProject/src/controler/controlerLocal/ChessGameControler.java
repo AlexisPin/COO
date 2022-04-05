@@ -41,7 +41,6 @@ public class ChessGameControler extends AbstractChessGameControler {
 	@Override
 	protected void endMove(Coord initCoord, Coord finalCoord,
 			String promotionType) {
-		
 	}
 
 	

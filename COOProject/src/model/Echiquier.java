@@ -58,19 +58,20 @@ public class Echiquier implements BoardGames{
 		if(Coord.coordonnees_valides(xFinal, yFinal)) {
 			
 			if(currentGame.isPieceHere(xInit, yInit)) {
+				System.out.println("ok");
 				 
 					 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {
 						 
 						 if(!isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
 							 
 							 if(currentGame.isPieceHere(xFinal, yFinal)) {
-								 if(false) {
+								 if(true) {
 									 ret = true;
 									 currentGame.setCastling();
 									 setMessage("OK : roque du roi");
 								 }
 							 }else if(notCurrentGame.isPieceHere(xFinal, yFinal)){
-								 currentGame.capture(xFinal, yFinal);
+								 notCurrentGame.capture(xFinal, yFinal);
 								 setMessage("OK : déplacement + capture");
 								 ret = true;
 							 }else {
@@ -104,19 +105,16 @@ public class Echiquier implements BoardGames{
 				ret = false;		
 		}else {
 			int nbEmptyCase = 0;
+			List<Integer> Array = null;
 			if(Math.abs(xInit-xFinal) == Math.abs(yInit-yFinal)) {
-				List<Integer> xArray = Stream.iterate(xInit, n -> xFinal > xInit ? n + 1 : n-1)
-                        .limit(xFinal)
+				List<Integer> xArray = Stream.iterate(xFinal > xInit ? xInit+1 : xInit-1, n -> xFinal > xInit ? n + 1 : n-1)
+                        .limit(Math.abs(xFinal-xInit)-1)
                         .collect(Collectors.toList());
-				List<Integer> yArray = Stream.iterate(yInit, n -> yFinal > yInit ? n + 1 : n-1)
-                        .limit(yFinal)
+				List<Integer> yArray = Stream.iterate(yFinal > yInit ? yInit+1 : yInit-1, n -> yFinal > yInit ? n + 1 : n-1)
+                        .limit(Math.abs(yFinal-yInit)-1)
                         .collect(Collectors.toList());
-				System.out.println(xArray.size());
-				System.out.println(yArray.size());
 				for(int i = 0 ; i < xArray.size(); i++) {
-					System.out.println(xArray.get(i) + " " + yArray.get(i));
 					if(currentGame.isPieceHere(xArray.get(i), yArray.get(i)) || notCurrentGame.isPieceHere(xArray.get(i), yArray.get(i))) {
-						System.out.println(getPieceColor(xArray.get(i), yArray.get(i)));
 						if(getPieceColor(xArray.get(i), yArray.get(i)) != currentGame.getCouleur()) {
 							currentGame.capture(xArray.get(i), yArray.get(i));
 						}
@@ -124,37 +122,38 @@ public class Echiquier implements BoardGames{
 						nbEmptyCase += 1;
 					}
 				}
-				if(nbEmptyCase == xArray.size()) {
-					ret = false;
-				}
+				Array = xArray;
 			}else if(xInit == xFinal) {
-				int[] yArray = IntStream.range(Math.min(yInit, yFinal)+1,Math.max(yInit, yFinal)).toArray();
-				for(int i = 0 ; i < yArray.length; i++) {
-					if(currentGame.isPieceHere(xInit, yArray[i]) || notCurrentGame.isPieceHere(xInit, yArray[i])) {						
-						if(getPieceColor(xInit, yArray[i]) != currentGame.getCouleur()) {
-							currentGame.capture(xInit, yArray[i]);
+				List<Integer> yArray = Stream.iterate(yFinal > yInit ? yInit+1 : yInit-1, n -> yFinal > yInit ? n + 1 : n-1)
+                        .limit(Math.abs(yFinal-yInit)-1)
+                        .collect(Collectors.toList());
+				for(int i = 0 ; i < yArray.size(); i++) {
+					if(currentGame.isPieceHere(xInit, yArray.get(i)) || notCurrentGame.isPieceHere(xInit, yArray.get(i))) {						
+						if(getPieceColor(xInit, yArray.get(i)) != currentGame.getCouleur()) {
+							currentGame.capture(xInit, yArray.get(i));
 						}
 					}else {
 						nbEmptyCase += 1;
 					}
 				}
-				if(nbEmptyCase == yArray.length) {
-					ret = false;
-				}
+				Array = yArray;
 			}else if(yInit == yFinal) {
-				int[] xArray = IntStream.range(Math.min(xInit, xFinal)+1,Math.max(xInit, xFinal)).toArray();
-				for(int i = 0 ; i < xArray.length; i++) {
-					if(currentGame.isPieceHere(xArray[i],yInit) || notCurrentGame.isPieceHere(xArray[i],yInit))
-					if(getPieceColor(xArray[i],yInit) != currentGame.getCouleur()) {
-						currentGame.capture(xArray[i],yInit);
+				List<Integer> xArray = Stream.iterate(xFinal > xInit ? xInit+1 : xInit-1, n -> xFinal > xInit ? n + 1 : n-1)
+                        .limit(Math.abs(xFinal-xInit)-1)
+                        .collect(Collectors.toList());
+				for(int i = 0 ; i < xArray.size(); i++) {
+					if(currentGame.isPieceHere(xArray.get(i),yInit) || notCurrentGame.isPieceHere(xArray.get(i),yInit))
+					if(getPieceColor(xArray.get(i),yInit) != currentGame.getCouleur()) {
+						currentGame.capture(xArray.get(i),yInit);
 						ret = true;
 					}else {
 						nbEmptyCase += 1;
 					}
 				}
-				if(nbEmptyCase == xArray.length) {
-					ret = false;
-				}
+				Array = xArray;
+			}
+			if(nbEmptyCase == Array.size()) {
+				ret = false;
 			}
 		}
 		return ret;

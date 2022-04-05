@@ -131,7 +131,6 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		  initCoord = getCoord(c);
 		  if (c instanceof JPanel) 
 		  return;
-		 
 		  Point parentLocation = c.getParent().getLocation();
 		  xAdjustment = parentLocation.x - e.getX();
 		  yAdjustment = parentLocation.y - e.getY();
@@ -170,6 +169,5 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 			  }
 			  chessPiece.setVisible(true);
 		  }
-		  
 	}
 }
