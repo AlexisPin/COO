@@ -54,21 +54,9 @@ public class Echiquier implements BoardGames{
 	}
 	
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
-		boolean ret = false;
-		if(notCurrentGame.isPieceHere(xFinal, yFinal)) {			
-			if(currentGame.getPieceType(xInit, yInit).equals("PionNoir") && 
-					Math.abs(xInit-xFinal) == 1 && yFinal == yInit+1) {
-				currentGame.setPossbileCapture();
-			}
-			else if(currentGame.getPieceType(xInit, yInit).equals("PionBlanc") && 
-					Math.abs(xInit-xFinal) == 1 && yFinal+1 == yInit) {
-				currentGame.setPossbileCapture();
-			}
-		}
-		 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {
-			 
-			 if(!isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
-				 
+		boolean ret = false;	 
+		 if(!isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
+			 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {		 
 				 if(currentGame.isPieceHere(xFinal, yFinal)) {
 					 if(true) {
 						 ret = true;
@@ -83,9 +71,11 @@ public class Echiquier implements BoardGames{
 					 ret = true;
 					 setMessage("OK : déplacement sans capture");
 				 }
-			 }
-		 }else {
+		 	}else {
 			setMessage("KO:la position finale ne correspond pas à algo de déplacement légal de la pièce");
+		 	}
+		 }else {
+			 setMessage("Une pi�ce se trouve sur la trajectoire");
 		 }
 		return ret;
 	}
@@ -97,7 +87,8 @@ public class Echiquier implements BoardGames{
 		ret = true;
 		return ret;
 	}
-		
+	
+	
 	public boolean isIntermediatePiece(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = true;
 		String currentPiece = currentGame.getPieceType(xInit, yInit);
@@ -108,7 +99,7 @@ public class Echiquier implements BoardGames{
 			int nbEmptyCase = 0;
 			int positionEnemyPiece = 0;
 			List<Integer> Array = null;
-			if(Math.abs(xInit-xFinal) == Math.abs(yInit-yFinal)) {
+			if(Math.abs(xInit-xFinal) == Math.abs(yInit-yFinal) && Math.abs(xInit-xFinal) != 1 && Math.abs(yInit-yFinal) != 1) {
 				List<Integer> xArray = Stream.iterate(xFinal > xInit ? xInit+1 : xInit-1, n -> xFinal > xInit ? n + 1 : n-1)
                         .limit(Math.abs(xFinal-xInit)-1)
                         .collect(Collectors.toList());
@@ -118,13 +109,11 @@ public class Echiquier implements BoardGames{
 				for(int i = 0 ; i < xArray.size(); i++) {
 					if(currentGame.isPieceHere(xArray.get(i), yArray.get(i))) {
 						positionEnemyPiece = 1;
-						ret = true;
 					}
 					else if(notCurrentGame.isPieceHere(xArray.get(i), yArray.get(i))) {
 						if(positionEnemyPiece == 0) {
 							currentGame.setPossbileCapture();
-						}
-						ret = true;
+						};
 					}
 					else {
 						nbEmptyCase += 1;
@@ -171,7 +160,19 @@ public class Echiquier implements BoardGames{
 					}
 				}
 				Array = xArray;
+			}else if(Math.abs(xInit-xFinal) == 1 && Math.abs(yInit-yFinal) == 1){
+				if(notCurrentGame.isPieceHere(xFinal, yFinal) && (currentGame.getPieceType(xInit, yInit).equals("PionBlanc") || currentGame.getPieceType(xInit, yInit).equals("PionNoir"))) {
+					currentGame.setPossbileCapture();
+				}
+				Array = Stream.iterate(0, n->n+1)
+                        .limit(0)
+                        .collect(Collectors.toList());;
+			}else {
+				Array = Stream.iterate(0, n->n+1)
+                        .limit(0)
+                        .collect(Collectors.toList());;
 			}
+			
 			if(nbEmptyCase == Array.size()) {
 				ret = false;
 			}
