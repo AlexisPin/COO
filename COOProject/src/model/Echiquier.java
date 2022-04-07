@@ -64,9 +64,13 @@ public class Echiquier implements BoardGames{
 						 setMessage("OK : roque du roi");
 					 }
 				 }else if(notCurrentGame.isPieceHere(xFinal, yFinal)){
-					 notCurrentGame.capture(xFinal, yFinal);
-					 setMessage("OK : déplacement + capture");
-					 ret = true;
+					 if((currentGame.getPieceType(xInit, yInit).equals("PionNoir") || currentGame.getPieceType(xInit, yInit).equals("PionBlanc")) &&  xFinal == xInit) {
+						 setMessage("Capture impossible");
+					 }else {
+						 notCurrentGame.capture(xFinal, yFinal);
+						 setMessage("OK : déplacement + capture");					 
+						 ret = true;
+					 }
 				 }else {
 					 ret = true;
 					 setMessage("OK : déplacement sans capture");
@@ -127,13 +131,11 @@ public class Echiquier implements BoardGames{
 				for(int i = 0 ; i < yArray.size(); i++) {
 					if(currentGame.isPieceHere(xInit, yArray.get(i))){
 						positionEnemyPiece = 1;
-						ret = true;
 					}
 					else if(notCurrentGame.isPieceHere(xInit, yArray.get(i))) {
 						if(positionEnemyPiece == 0) {
 							currentGame.setPossbileCapture();
 						}
-						ret = true;
 					}			
 					else {
 						nbEmptyCase += 1;
@@ -147,13 +149,11 @@ public class Echiquier implements BoardGames{
 				for(int i = 0 ; i < xArray.size(); i++) {
 					if(currentGame.isPieceHere(xArray.get(i),yInit)) {
 						positionEnemyPiece = 1;
-						ret = true;
 					}
 					else if(notCurrentGame.isPieceHere(xArray.get(i),yInit)){
 						if(positionEnemyPiece == 0) {
 							currentGame.setPossbileCapture();
 						}
-						ret = true;
 					}
 					else {
 						nbEmptyCase += 1;
