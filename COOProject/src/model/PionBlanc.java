@@ -21,4 +21,11 @@ public class PionBlanc extends Pion {
 		return ret;
 	}
 
+	public boolean isLastRow() {
+		boolean ret  =false;
+		if(getY() == 0) {
+			ret = true;
+		}
+		return ret;
+	}
 }

@@ -20,5 +20,12 @@ public class PionNoir extends Pion{
 		ret = Math.abs(getX()- xFinal) == 1 && getY() - yFinal == -1;
 		return ret;
 	}
-
+	
+	public boolean isLastRow() {
+		boolean ret  =false;
+		if(getY() == 7) {
+			ret = true;
+		}
+		return ret;
+	}
 }

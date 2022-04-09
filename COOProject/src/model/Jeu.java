@@ -15,7 +15,8 @@ public class Jeu {
 	private int previousMovedIndexPiece;
 	private Pieces previousMovedPiece;
 	private Stack<Pieces> listCapturedPiece = new Stack<Pieces>();
-	private Boolean possibleCapture = false;
+	public Boolean possibleCapture = false;
+	public Boolean possibleCastling = false;
 	
 	public Jeu(Couleur couleur) {
 		this.couleur = couleur;
@@ -100,31 +101,29 @@ public class Jeu {
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
 		if(isPieceHere(xInit, yInit)) {
-			if(xInit != xFinal || yInit != yFinal) {
-				Pieces currentPiece = findPiece(xInit, yInit);
-				if(currentPiece.isMoveOk(xFinal, yFinal)) {
+			Pieces currentPiece = findPiece(xInit, yInit);
+			if(currentPiece.isMoveOk(xFinal, yFinal)) {
+				ret = true;
+			}
+			if(currentPiece instanceof Pion)
+			{					
+				if(((Pion) currentPiece).isMoveDiagOk(xFinal, yFinal) && possibleCapture) {	
+					possibleCapture = false;
 					ret = true;
-				}
-				if(currentPiece instanceof Pion)
-				{					
-					if(((Pion) currentPiece).isMoveDiagOk(xFinal, yFinal) && possibleCapture) {	
-						possibleCapture = false;
-						ret = true;
-					}
 				}
 			}
 		}
 		return ret;
 	} 
 	
-	public boolean move(int xInit, int yInit, int xFinal, int yFinal  ) {
+	public boolean move(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean ret = false;
-		if(isMoveOk(xInit, yInit, xFinal, yFinal)) {
-			ret = true;
-			Pieces currentPiece = findPiece(xInit, yInit);
-			this.previousMovedPiece = ChessSinglePieceFactory.newPiece(currentPiece.getCouleur(), getPieceType(xInit, yInit), xInit, yInit);
-			this.previousMovedIndexPiece  = pieces.indexOf(currentPiece);
-			currentPiece.move(xFinal, yFinal);
+		Pieces currentPiece = findPiece(xInit, yInit);
+		this.previousMovedPiece = ChessSinglePieceFactory.newPiece(currentPiece.getCouleur(), getPieceType(xInit, yInit), xInit, yInit);
+		this.previousMovedIndexPiece  = pieces.indexOf(currentPiece);
+		if(currentPiece.move(xFinal, yFinal)) ret = true;
+		if(isPawnPromotion(xFinal, yFinal)) {
+			pawnPromotion(xFinal, yFinal, "Dame");
 		}
 		return ret;
 	}
@@ -132,30 +131,19 @@ public class Jeu {
 	public boolean isPawnPromotion(int xFinal, int yFinal) {
 		boolean ret = false;
 		Pieces currentPieces = findPiece(xFinal, yFinal);
-		String name = currentPieces.getClass().getSimpleName();
-		if(couleur == Couleur.BLANC) {
-			if(name == Pion.class.getSimpleName()) {
-				if(currentPieces.getY() == 0) {
-					ret = true;
-				}
-			}
-		}else if(couleur == Couleur.NOIR) {
-			if(name == Pion.class.getSimpleName()) {
-				if(currentPieces.getY() == 7) {
-					ret = true;
-				}
-			}
+		if(currentPieces instanceof Pions) {
+			ret = ((Pions) currentPieces).isLastRow();
 		}
 		return ret;
 	}
 	
 	public boolean pawnPromotion(int xFinal, int yFinal, String type) {
 		boolean ret = false;
-		if(isPawnPromotion(xFinal, yFinal)) {
-			ret =  true;
+		if(type.equals("Dame") || type.equals("Tour") || type.equals("Fou") || type.equals("Cavalier")) {
 			int currentPieceIndex  = pieces.indexOf(findPiece(xFinal, yFinal));
 			pieces.remove(currentPieceIndex);
 			pieces.add(currentPieceIndex, ChessSinglePieceFactory.newPiece(couleur, type, xFinal, yFinal));
+			ret =  true;			
 		}
 		return ret;
 	}

@@ -54,33 +54,38 @@ public class Echiquier implements BoardGames{
 	}
 	
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
-		boolean ret = false;	 
-		 if(!isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
-			 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {		 
-				 if(currentGame.isPieceHere(xFinal, yFinal)) {
-					 if(true) {
-						 ret = true;
-						 currentGame.setCastling();
-						 setMessage("OK : roque du roi");
-					 }
-				 }else if(notCurrentGame.isPieceHere(xFinal, yFinal)){
-					 if((currentGame.getPieceType(xInit, yInit).equals("PionNoir") || currentGame.getPieceType(xInit, yInit).equals("PionBlanc")) &&  xFinal == xInit) {
-						 setMessage("Capture impossible");
+		boolean ret = false;
+		if(xInit != xFinal || yInit != yFinal) {
+			 if(!isIntermediatePiece(xInit,yInit,xFinal, yFinal)) {
+				 if(currentGame.isMoveOk(xInit, yInit, xFinal, yFinal)) {		 
+					 if(currentGame.isPieceHere(xFinal, yFinal)) {
+						 if(currentGame.possibleCastling) {
+							 ret = true;
+							 setMessage("OK : roque du roi");
+						 }else {
+							 setMessage("Une de vos piËce se trouve dÈj‡ ‡ cette position");
+						 }
+					 }else if(notCurrentGame.isPieceHere(xFinal, yFinal)){
+						 if((currentGame.getPieceType(xInit, yInit).equals("PionNoir") || currentGame.getPieceType(xInit, yInit).equals("PionBlanc")) &&  xInit == xFinal) {
+							 setMessage("Capture impossible");
+						 }else {
+							 notCurrentGame.capture(xFinal, yFinal);
+							 setMessage("OK : d√©placement + capture");					 
+							 ret = true;
+						 }
 					 }else {
-						 notCurrentGame.capture(xFinal, yFinal);
-						 setMessage("OK : d√©placement + capture");					 
 						 ret = true;
+						 setMessage("OK : d√©placement sans capture");
 					 }
-				 }else {
-					 ret = true;
-					 setMessage("OK : d√©placement sans capture");
-				 }
-		 	}else {
-			setMessage("KO:la position finale ne correspond pas √† algo de d√©placement l√©gal de la pi√®ce");
-		 	}
-		 }else {
-			 setMessage("Une piËce se trouve sur la trajectoire");
-		 }
+				}else {
+				setMessage("KO:la position finale ne correspond pas √† algo de d√©placement l√©gal de la pi√®ce");
+				 	}
+			 }else {
+				 setMessage("Une piËce se trouve sur la trajectoire");
+			 }
+		}else {
+			setMessage("La position final ne peut Ítre identique ‡ la position initial");
+		}
 		return ret;
 	}
 	
