@@ -40,9 +40,6 @@ public class ChessImageProvider {
 	public static String getImageFile(String pieceType, Couleur pieceCouleur){
 		String ret, key, value;
 		ret = null;
-		if(pieceType.equals("PionBlanc") || pieceType.equals("PionNoir")) {
-			pieceType = pieceType.substring(0, 4);
-		}
 		key = pieceType + pieceCouleur.name();
 		value = mapImage.get(key);
 		File g=new File("");

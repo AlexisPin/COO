@@ -12,14 +12,14 @@ public enum ChessPieceImage {
 	FOUBLANC("FouBLANC",  "fouBlancS.png"), 
 	REINEBLANC("ReineBLANC", "reineBlancS.png"), 
 	ROIBLANC("RoiBLANC", "roiBlancS.png"),
-	PIONBLANC("PionBLANC", "pionBlancS.png"),
+	PIONBLANC("PionBlancBLANC", "pionBlancS.png"),
 			
 	TOURNOIR("TourNOIR", "tourNoireS.png"),
 	CAVALIERNOIR("CavalierNOIR", "cavalierNoirS.png"), 
 	FOUNOIR( "FouNOIR", "fouNoirS.png"), 
 	REINENOIR("ReineNOIR", "reineNoireS.png"), 
 	ROINOIR("RoiNOIR", "roiNoirS.png"),
-	PIONNOIR("PionNOIR", "pionNoirS.png")   
+	PIONNOIR("PionNoirNOIR", "pionNoirS.png")   
 	; 
 	
 	

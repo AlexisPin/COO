@@ -75,7 +75,6 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 
 		List<PieceIHM> piecesIHM = (List<PieceIHM>) arg1;
 
-
 		String[][] damier = new String[8][8];
 		
 		// création d'un tableau 2D avec les noms des pièces
@@ -95,7 +94,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		if (chessPiece == null) return;
-		if(chessGameControler.isPlayerOK(initCoord)) {			
+		if(chessGameControler.isPlayerOK(initCoord)) {
 			chessPiece.setLocation(me.getX() + xAdjustment, me.getY() + yAdjustment);
 		}
 	}
@@ -129,7 +128,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		  chessPiece = null;
 		  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
 		  initCoord = getCoord(c);
-		  if (c instanceof JPanel) 
+		  if (c instanceof JPanel || !chessGameControler.isPlayerOK(initCoord)) 
 		  return;
 		  Point parentLocation = c.getParent().getLocation();
 		  xAdjustment = parentLocation.x - e.getX();

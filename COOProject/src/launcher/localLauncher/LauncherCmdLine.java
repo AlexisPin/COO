@@ -18,7 +18,7 @@ public class LauncherCmdLine {
 	public static void main(String[] args) {		
 		
 		ChessGame model;
-		ChessGameControler controler;	
+		ChessGameControler controler;
 		ChessGameCmdLine vue;
 		
 		model = new ChessGame();	

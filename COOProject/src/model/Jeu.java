@@ -31,7 +31,7 @@ public class Jeu {
 			if(currentPiece.capture()) {
 				ret = true;
 				listCapturedPiece.add(currentPiece);
-				pieces.remove(currentPieceIndex);
+				//pieces.remove(currentPieceIndex);
 			}
 		}
 		return ret;
